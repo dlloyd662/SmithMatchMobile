@@ -8,6 +8,7 @@ import {
   View,
   Animated,
   TouchableOpacity,
+  Button,
 } from 'react-native';
 import Points from './Points';
 import CircleDragTest from './CircleDragTest';
@@ -19,20 +20,32 @@ export default function SmithChart(props: SmithChartProps) {
   const smithChartCanvasRef = useRef<Canvas>(null);
 
   useEffect(() => {
-    if (!backgroundRef.current) return;
-    const canvas = backgroundRef.current;
-    const ctx = canvas.getContext('2d');
     const {width, height} = Dimensions.get('window');
-    canvas.width = width * 0.8;
-    canvas.height = height * 0.8;
+    const activeWindowHeight = height * 0.8;
 
-    console.log('hello');
-    DrawBackground(canvas, ctx);
-    // Points(canvas, ctx, 0, 0);
-    // CircleDragTest(canvas, ctx);
-  }, [backgroundRef.current]);
+    // console.log('width', width, 'height', height);
+    // console.log(smithChartCanvasRef.current);
 
-  let x = 0;
+    if (backgroundRef.current !== null) {
+      console.log('background Init');
+      const backgroundCanvas = backgroundRef.current;
+      const backgroundCtx = backgroundCanvas.getContext('2d');
+
+      backgroundCanvas.width = width;
+      backgroundCanvas.height = activeWindowHeight;
+
+      DrawBackground(backgroundCanvas, backgroundCtx);
+    }
+
+    if (smithChartCanvasRef.current !== null) {
+      console.log('background Init');
+      const smithChartCanvas = smithChartCanvasRef.current;
+      const smithChartCtx = smithChartCanvas.getContext('2d');
+      smithChartCanvas.width = width;
+      smithChartCanvas.height = activeWindowHeight;
+      Points(smithChartCanvas, smithChartCtx, 0, 0);
+    }
+  }, [backgroundRef.current, smithChartCanvasRef.current]);
 
   const pan = useRef(new Animated.ValueXY()).current;
   const panResponder = React.useRef(
@@ -43,11 +56,6 @@ export default function SmithChart(props: SmithChartProps) {
       onMoveShouldSetPanResponder: (event, gestureState) => true,
       onMoveShouldSetPanResponderCapture: (event, gestureState) => true,
 
-      onPanResponderGrant: (event, gestureState) => {
-        // The gesture has started. Show visual feedback so the user knows
-        // what is happening!
-        // gestureState.d{x,y} will be set to zero now
-      },
       onPanResponderMove: (event, gestureState) => {
         // The most recent move distance is gestureState.move{X,Y}
         // The accumulated gesture distance since becoming responder is
@@ -61,33 +69,40 @@ export default function SmithChart(props: SmithChartProps) {
           event.nativeEvent.locationY,
         );
       },
-      onPanResponderTerminationRequest: (event, gestureState) => true,
-      onPanResponderRelease: (event, gestureState) => {
-        // The user has released all touches while this view is the
-        // responder. This typically means a gesture has succeeded
-      },
-      onPanResponderTerminate: (event, gestureState) => {
-        // Another component has become the responder, so this gesture
-        // should be cancelled
-      },
-      onShouldBlockNativeResponder: (event, gestureState) => {
-        // Returns whether this component should block native components from becoming the JS
-        // responder. Returns true by default. Is currently only supported on android.
-        return true;
-      },
     }),
   ).current;
 
   return (
-    <View style={{flex: 1}} {...panResponder.panHandlers}>
-      <Canvas
-        ref={smithChartCanvasRef}
-        style={{width: '100%', height: '100%', backgroundColor: 'black'}}
-      />
-      <TouchableOpacity onPress={() => alert('Button clicked')}>
-        <Text>Click Me</Text>
-      </TouchableOpacity>
-      <Text>This is test text: {x}</Text>
+    <View style={{height: '100%', backgroundColor: 'black'}}>
+      <View
+        style={{height: '80%', backgroundColor: 'transparant'}}
+        {...panResponder.panHandlers}>
+        <Canvas
+          ref={smithChartCanvasRef}
+          style={{
+            position: 'absolute',
+            backgroundColor: 'transparant',
+            borderColor: 'yellow',
+            borderWidth: 1,
+          }}
+          //
+        />
+        <Canvas
+          ref={backgroundRef}
+          style={{
+            position: 'absolute',
+            backgroundColor: 'transparant',
+            borderColor: 'yellow',
+            borderWidth: 1,
+          }}
+        />
+      </View>
+
+      <View style={{flex: 1, justifyContent: 'flex-end', marginBottom: 36}}>
+        <Button
+          onPress={() => console.log('Button clicked')}
+          title="Click me"></Button>
+      </View>
     </View>
   );
 }

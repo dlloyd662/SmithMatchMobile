@@ -5,6 +5,7 @@ export default function DrawBackground(
   canvas: Canvas,
   ctx: CanvasRenderingContext2D,
 ) {
+  console.log('Drawing background');
   const centerX = canvas.width / 2;
   const centerY = canvas.height / 2;
   const boundaryRadius = canvas.width / 2 - 50;
