@@ -34,3 +34,11 @@ export const defaultTransmissionLine = {
   message: 'defaultTransmissionLine',
   image: require('../images/TLine_Series.png'),
 };
+export const defaultLoad = {
+  message: 'defaultLoad',
+  image: require('../images/Source.png'),
+};
+export const defaultSource = {
+  message: 'defaultSource',
+  image: require('../images/Load.png'),
+};

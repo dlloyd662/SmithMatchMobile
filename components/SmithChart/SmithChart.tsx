@@ -38,7 +38,7 @@ export default function SmithChart(props: SmithChartProps) {
       const smithChartCanvas = smithChartCanvasRef.current;
       const smithChartCtx = smithChartCanvas.getContext('2d');
       smithChartCanvas.width = width;
-      smithChartCanvas.height = activeWindowHeight;
+      smithChartCanvas.height = canvasHeight;
       Points(smithChartCanvasRef, 0, 0);
     }
   }, [backgroundRef.current, smithChartCanvasRef.current]);
@@ -60,14 +60,15 @@ export default function SmithChart(props: SmithChartProps) {
           let distance = Math.sqrt(dx * dx + dy * dy);
           if (lastDistance.current !== 0) {
             let scaleChange = (distance - lastDistance.current) / 0.5; // Adjust the denominator for sensitivity
-            const newHeight = Math.min(
+            const canvasHeight = Math.min(
               Math.max(
                 Math.max(smithChartCanvasRef.current.height + scaleChange, 0),
               ),
               activeWindowHeight,
             );
-            smithChartCanvasRef.current.height = newHeight;
-            backgroundRef.current.height = newHeight;
+            smithChartCanvasRef.current.height = canvasHeight;
+            backgroundRef.current.height = canvasHeight;
+            setCanvasHeight(canvasHeight);
           }
           lastDistance.current = distance;
         }
@@ -108,8 +109,8 @@ export default function SmithChart(props: SmithChartProps) {
   return (
     <View
       style={{
-        flexGrow: 1,
         backgroundColor: 'transparant',
+        height: canvasHeight,
       }}
       {...panResponder.panHandlers}>
       <Canvas ref={smithChartCanvasRef} style={{...styles.chart}} />
