@@ -1,11 +1,12 @@
 import Canvas, {CanvasRenderingContext2D} from 'react-native-canvas';
 import {Dimensions} from 'react-native';
+import {MutableRefObject} from 'react';
 
-export default function DrawBackground(
-  canvas: Canvas,
-  ctx: CanvasRenderingContext2D,
-) {
+export default function DrawBackground(canvasRef: React.RefObject<Canvas>) {
   console.log('Drawing background');
+  const canvas = canvasRef.current;
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
   const centerX = canvas.width / 2;
   const centerY = canvas.height / 2;
   const boundaryRadius = canvas.width / 2 - 50;

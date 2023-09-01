@@ -1,12 +1,20 @@
 import Canvas, {CanvasRenderingContext2D} from 'react-native-canvas';
+import React, {useRef} from 'react';
+import {MutableRefObject} from 'react';
 
 export default function Points(
-  canvas: Canvas,
-  ctx: CanvasRenderingContext2D,
+  // canvas: ref
+  // ctx: CanvasRenderingContext2D,
+  // canvasRef: useRef<Canvas | null>,
+  // canvasRef: MutableRefObject<Canvas>,
+  canvasRef: React.RefObject<Canvas>,
   x: number,
   y: number,
 ) {
   // canvas.width = 800;
+  const canvas = canvasRef.current;
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
   const centerX = canvas.width / 2;
   const centerY = canvas.height / 2;
   const boundaryRadius = canvas.width / 2 - 50;
