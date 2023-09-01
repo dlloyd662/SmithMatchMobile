@@ -17,7 +17,10 @@ export default function Points(
   const ctx = canvas.getContext('2d');
   const centerX = canvas.width / 2;
   const centerY = canvas.height / 2;
-  const boundaryRadius = canvas.width / 2 - 50;
+  const boundaryRadius = Math.min(
+    canvas.width / 2 - 25,
+    canvas.height / 2 - 25,
+  );
 
   ctx.clearRect(0, 0, canvas.width, canvas.height); //Clears previous points
 

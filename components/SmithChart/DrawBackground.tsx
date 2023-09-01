@@ -2,14 +2,28 @@ import Canvas, {CanvasRenderingContext2D} from 'react-native-canvas';
 import {Dimensions} from 'react-native';
 import {MutableRefObject} from 'react';
 
-export default function DrawBackground(canvasRef: React.RefObject<Canvas>) {
+interface DrawBackgroundInterface {
+  canvasRef: React.RefObject<Canvas>;
+  admittanceArcs: boolean;
+  conductanceArcs: boolean;
+}
+
+export default function DrawBackground({
+  canvasRef,
+  admittanceArcs,
+  conductanceArcs,
+}: DrawBackgroundInterface) {
   console.log('Drawing background');
   const canvas = canvasRef.current;
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   const centerX = canvas.width / 2;
   const centerY = canvas.height / 2;
-  const boundaryRadius = canvas.width / 2 - 50;
+  // const boundaryRadius = canvas.width / 2 - 50;
+  const boundaryRadius = Math.min(
+    canvas.width / 2 - 25,
+    canvas.height / 2 - 25,
+  );
 
   const smithLeftEdge = centerX - boundaryRadius;
   const smithRightEdge = centerX + boundaryRadius;
@@ -43,28 +57,6 @@ export default function DrawBackground(canvasRef: React.RefObject<Canvas>) {
 
     return 2 * Math.asin(chord / 2 / rad);
   }
-  // Drawing Reactance Arcs
-  arcRad.forEach(rad => {
-    ctx.beginPath();
-    ctx.arc(
-      smithRightEdge,
-      centerY - rad,
-      rad,
-      Math.PI / 2,
-      getReactanceArcLength(rad) + Math.PI / 2,
-    );
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(
-      smithRightEdge,
-      centerY + rad,
-      rad,
-      1.5 * Math.PI,
-      (3 / 2) * Math.PI - getReactanceArcLength(rad),
-      true,
-    );
-    ctx.stroke();
-  });
 
   function updateCircRad() {
     return normalizedVals.map(getResistanceArcRad);
@@ -73,17 +65,75 @@ export default function DrawBackground(canvasRef: React.RefObject<Canvas>) {
   // Get radii for resistance and conductance circles
   let circRad = updateCircRad();
 
-  // Drawing Resistance Circles
-  circRad.forEach(rad => {
-    ctx.beginPath();
-    ctx.arc(centerX + boundaryRadius - rad, centerY, rad, 0, Math.PI * 2);
-    ctx.stroke();
-  });
+  //Series Elements:
+  // Drawing Reactance Arcs
 
+  if (admittanceArcs) {
+    arcRad.forEach(rad => {
+      ctx.beginPath();
+      ctx.arc(
+        smithRightEdge,
+        centerY - rad,
+        rad,
+        Math.PI / 2,
+        getReactanceArcLength(rad) + Math.PI / 2,
+      );
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(
+        smithRightEdge,
+        centerY + rad,
+        rad,
+        1.5 * Math.PI,
+        (3 / 2) * Math.PI - getReactanceArcLength(rad),
+        true,
+      );
+      ctx.stroke();
+    });
+  }
+
+  // Drawing Resistance Circles
+  if (admittanceArcs) {
+    circRad.forEach(rad => {
+      ctx.beginPath();
+      ctx.arc(centerX + boundaryRadius - rad, centerY, rad, 0, Math.PI * 2);
+      ctx.stroke();
+    });
+  }
+
+  //Parallel Elements:
   // Drawing Conductance Circles
-  // circRad.forEach((rad) => {
-  //   ctx.beginPath();
-  //   ctx.arc(centerX - boundaryRadius + rad, centerY, rad, 0, Math.PI * 2);
-  //   ctx.stroke();
-  // });
+  if (conductanceArcs) {
+    circRad.forEach(rad => {
+      ctx.beginPath();
+      ctx.arc(centerX - boundaryRadius + rad, centerY, rad, 0, Math.PI * 2);
+      ctx.stroke();
+    });
+  }
+
+  //Susceptance arcs
+
+  if (conductanceArcs) {
+    arcRad.forEach(rad => {
+      ctx.beginPath();
+      ctx.arc(
+        smithLeftEdge,
+        centerY - rad,
+        rad,
+        Math.PI / 2,
+        -getReactanceArcLength(rad) + Math.PI / 2,
+        true,
+      );
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(
+        smithLeftEdge,
+        centerY + rad,
+        rad,
+        1.5 * Math.PI,
+        (3 / 2) * Math.PI + getReactanceArcLength(rad),
+      );
+      ctx.stroke();
+    });
+  }
 }

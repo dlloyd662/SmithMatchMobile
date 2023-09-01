@@ -1,4 +1,5 @@
-import {Image, StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, TouchableHighlight, View} from 'react-native';
+import * as Components from '../Components';
 
 interface ComponentBankProps {}
 
@@ -8,19 +9,24 @@ export default function ComponentBank(props: ComponentBankProps) {
       backgroundColor: 'white',
       flex: 1,
       height: '100%', //Set height to scale components here
+    },
+    imageWrapper: {
+      flexDirection: 'row', // Set the flexDirection to row
+      height: '100%', //Set height to scale components here
+      flex: 1,
       marginRight: 2,
     },
   });
-  const componentImages = [
-    require('../../images/Inductor_Parallel.png'),
-    require('../../images/Inductor_Series.png'),
-    require('../../images/Resistor_Parallel.png'),
-    require('../../images/Resistor_Series.png'),
-    require('../../images/Capacitor_Parallel.png'),
-    require('../../images/Capacitor_Series.png'),
-    require('../../images/TLine_Open.png'),
-    require('../../images/TLine_Short.png'),
-    require('../../images/TLine_Series.png'),
+
+  const components = [
+    Components.defaultSeriesInductor,
+    Components.defaultShuntInductor,
+    Components.defaultSeriesCapacitor,
+    Components.defaultShuntCapacitor,
+    Components.defaultSeriesResistor,
+    Components.defaultShortStub,
+    Components.defaultOpenStub,
+    Components.defaultTransmissionLine,
   ];
 
   return (
@@ -29,14 +35,20 @@ export default function ComponentBank(props: ComponentBankProps) {
         flexDirection: 'row', // Set the flexDirection to row
         height: 70, // Set the height to scale components here
       }}>
-      {componentImages.map((image, index) => {
+      {components.map((component, index) => {
         return (
-          <Image
-            resizeMode="contain"
-            source={image}
-            style={styles.image}
+          <TouchableHighlight
+            style={styles.imageWrapper}
             key={index}
-          />
+            onPress={() => {
+              console.log(component.message);
+            }}>
+            <Image
+              style={styles.image}
+              resizeMode="contain"
+              source={component.image}
+            />
+          </TouchableHighlight>
         );
       })}
     </View>
