@@ -1,4 +1,11 @@
-import {Image, StyleSheet, Text, TouchableHighlight, View} from 'react-native';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  View,
+} from 'react-native';
 import * as Components from '../Components';
 import {useEffect, useState} from 'react';
 
@@ -35,10 +42,12 @@ export default function DesignSpace(props: DesignSpaceProps) {
     },
   });
   return (
-    <View
+    <ScrollView
+      horizontal={true} // Enable horizontal scrolling
       style={{
         flexDirection: 'row', // Set the flexDirection to row
-        alignItems: 'stretch',
+
+        // alignItems: 'stretch',
       }}>
       {props.designSpaceComponents.map((component, index) => {
         return (
@@ -54,6 +63,6 @@ export default function DesignSpace(props: DesignSpaceProps) {
           </TouchableHighlight>
         );
       })}
-    </View>
+    </ScrollView>
   );
 }
