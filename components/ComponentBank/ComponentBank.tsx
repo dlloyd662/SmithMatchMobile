@@ -1,7 +1,10 @@
 import {Image, StyleSheet, TouchableHighlight, View} from 'react-native';
 import * as Components from '../Components';
 
-interface ComponentBankProps {}
+interface ComponentBankProps {
+  setDesignSpaceComponents: Function;
+  designSpaceComponents: Array<Object>;
+}
 
 export default function ComponentBank(props: ComponentBankProps) {
   const styles = StyleSheet.create({
@@ -18,30 +21,32 @@ export default function ComponentBank(props: ComponentBankProps) {
     },
   });
 
-  const components = [
-    Components.defaultSeriesInductor,
-    Components.defaultShuntInductor,
-    Components.defaultSeriesCapacitor,
-    Components.defaultShuntCapacitor,
-    Components.defaultSeriesResistor,
-    Components.defaultShortStub,
-    Components.defaultOpenStub,
-    Components.defaultTransmissionLine,
-  ];
-
   return (
     <View
       style={{
         flexDirection: 'row', // Set the flexDirection to row
         height: 70, // Set the height to scale components here
       }}>
-      {components.map((component, index) => {
+      {Components.defaultComponentsArray.map((component, index) => {
         return (
           <TouchableHighlight
             style={styles.imageWrapper}
             key={index}
             onPress={() => {
-              console.log(component.message);
+              console.log(component.name);
+              const designSpaceComponentsWithInsertedElement = [
+                ...props.designSpaceComponents.slice(
+                  0,
+                  props.designSpaceComponents.length - 1,
+                ),
+                component,
+                ...props.designSpaceComponents.slice(
+                  props.designSpaceComponents.length - 1,
+                ),
+              ];
+              props.setDesignSpaceComponents(
+                designSpaceComponentsWithInsertedElement,
+              );
             }}>
             <Image
               style={styles.image}

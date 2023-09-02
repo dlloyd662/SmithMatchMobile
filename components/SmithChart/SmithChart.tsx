@@ -36,7 +36,6 @@ export default function SmithChart(props: SmithChartProps) {
 
     if (smithChartCanvasRef.current !== null) {
       const smithChartCanvas = smithChartCanvasRef.current;
-      const smithChartCtx = smithChartCanvas.getContext('2d');
       smithChartCanvas.width = width;
       smithChartCanvas.height = canvasHeight;
       Points(smithChartCanvasRef, 0, 0);

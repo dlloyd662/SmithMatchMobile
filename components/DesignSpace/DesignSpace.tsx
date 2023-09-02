@@ -3,12 +3,16 @@ import * as Components from '../Components';
 import {useEffect, useState} from 'react';
 
 interface DesignSpaceProps {
-  // componentsArray: any;
+  setDesignSpaceComponents: Function;
+  designSpaceComponents: Array<any>;
 }
 
-export default function DesignSpace() {
+export default function DesignSpace(props: DesignSpaceProps) {
   const [aspectRatio, setAspectRatio] = useState(1); // default to 1:1
-  const componentsArray = [Components.defaultLoad, Components.defaultSource];
+  const [componentsArray, setComponentsArray] = useState([
+    Components.defaultLoad,
+    Components.defaultSource,
+  ]); // default to 1:1
 
   useEffect(() => {
     const imageSource = Image.resolveAssetSource(Components.defaultLoad.image);
@@ -25,7 +29,7 @@ export default function DesignSpace() {
     imageWrapper: {
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: 'red',
+      backgroundColor: 'white',
       width: 50,
       aspectRatio: aspectRatio,
     },
@@ -34,22 +38,19 @@ export default function DesignSpace() {
     <View
       style={{
         flexDirection: 'row', // Set the flexDirection to row
-        height: 50, // Set the height to scale components here
-        backgroundColor: 'yellow',
         alignItems: 'stretch',
       }}>
-      {componentsArray.map((component, index) => {
+      {props.designSpaceComponents.map((component, index) => {
         return (
           <TouchableHighlight
             style={styles.imageWrapper}
             key={index}
-            onPress={() => {
-              console.log(component.message);
-            }}>
+            onPress={() => {}}>
             <Image
               source={component.image}
               style={{...styles.image}}
-              resizeMode="contain"></Image>
+              resizeMode="contain"
+            />
           </TouchableHighlight>
         );
       })}

@@ -1,44 +1,61 @@
 export const defaultSeriesInductor = {
-  message: 'defaultSeriesInductor',
+  name: 'defaultSeriesInductor',
   image: require('../images/Inductor_Series.png'),
 };
 export const defaultShuntInductor = {
-  message: 'defaultShuntInductor',
+  name: 'defaultShuntInductor',
   image: require('../images/Inductor_Parallel.png'),
 };
 export const defaultSeriesResistor = {
-  message: 'defaultSeriesResistor',
+  name: 'defaultSeriesResistor',
   image: require('../images/Resistor_Series.png'),
 };
 export const defaultShuntResistor = {
-  message: 'defaultShuntResistor',
+  name: 'defaultShuntResistor',
   image: require('../images/Resistor_Parallel.png'),
 };
 export const defaultSeriesCapacitor = {
-  message: 'defaultSeriesCapacitor',
+  name: 'defaultSeriesCapacitor',
   image: require('../images/Capacitor_Series.png'),
 };
 export const defaultShuntCapacitor = {
-  message: 'defaultShuntCapacitor',
+  name: 'defaultShuntCapacitor',
   image: require('../images/Capacitor_Parallel.png'),
 };
 export const defaultOpenStub = {
-  message: 'defaultOpenStub',
+  name: 'defaultOpenStub',
   image: require('../images/TLine_Open.png'),
 };
 export const defaultShortStub = {
-  message: 'defaultShortStub',
+  name: 'defaultShortStub',
   image: require('../images/TLine_Short.png'),
 };
 export const defaultTransmissionLine = {
-  message: 'defaultTransmissionLine',
+  name: 'defaultTransmissionLine',
   image: require('../images/TLine_Series.png'),
 };
 export const defaultLoad = {
-  message: 'defaultLoad',
+  name: 'defaultLoad',
   image: require('../images/Source.png'),
 };
 export const defaultSource = {
-  message: 'defaultSource',
+  name: 'defaultSource',
   image: require('../images/Load.png'),
 };
+
+export const defaultComponentsArray = [
+  defaultSeriesInductor,
+  defaultShuntInductor,
+  defaultSeriesCapacitor,
+  defaultShuntCapacitor,
+  defaultSeriesResistor,
+  defaultShortStub,
+  defaultOpenStub,
+  defaultTransmissionLine,
+];
+
+let componentMap = new Map<string, object>();
+defaultComponentsArray.forEach((component, index) => {
+  componentMap.set(component.name, component);
+});
+export {componentMap};
