@@ -4,6 +4,8 @@ import ComponentBank from './components/ComponentBank/ComponentBank';
 import DesignSpace from './components/DesignSpace/DesignSpace';
 import {useState} from 'react';
 import * as Components from './components/Components';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import 'react-native-gesture-handler';
 
 export default function App() {
   const [designSpaceComponents, setDesignSpaceComponents] = useState([
@@ -12,6 +14,7 @@ export default function App() {
   ]);
 
   return (
+    // <GestureHandlerRootView>
     <SafeAreaView style={{flex: 1}}>
       <ComponentBank
         designSpaceComponents={designSpaceComponents}
@@ -23,5 +26,6 @@ export default function App() {
         designSpaceComponents={designSpaceComponents}
       />
     </SafeAreaView>
+    // </GestureHandlerRootView>
   );
 }

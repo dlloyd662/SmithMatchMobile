@@ -1,13 +1,14 @@
 import {
   Image,
-  ScrollView,
   StyleSheet,
-  Text,
+  TextInput,
   TouchableHighlight,
   View,
 } from 'react-native';
 import * as Components from '../Components';
 import {useEffect, useState} from 'react';
+import DraggableFlatList from 'react-native-draggable-flatlist';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 interface DesignSpaceProps {
   setDesignSpaceComponents: Function;
@@ -21,6 +22,7 @@ export default function DesignSpace(props: DesignSpaceProps) {
     Components.defaultSource,
   ]); // default to 1:1
 
+  const data = [Components.defaultLoad, Components.defaultSource]; // default to 1:1
   useEffect(() => {
     const imageSource = Image.resolveAssetSource(Components.defaultLoad.image);
 
@@ -41,28 +43,44 @@ export default function DesignSpace(props: DesignSpaceProps) {
       aspectRatio: aspectRatio,
     },
   });
-  return (
-    <ScrollView
-      horizontal={true} // Enable horizontal scrolling
-      style={{
-        flexDirection: 'row', // Set the flexDirection to row
 
-        // alignItems: 'stretch',
-      }}>
-      {props.designSpaceComponents.map((component, index) => {
-        return (
-          <TouchableHighlight
-            style={styles.imageWrapper}
-            key={index}
-            onPress={() => {}}>
-            <Image
-              source={component.image}
-              style={{...styles.image}}
-              resizeMode="contain"
-            />
-          </TouchableHighlight>
-        );
-      })}
-    </ScrollView>
+  const renderItem = ({item, index, drag, isActive}: any) => {
+    // console.log('item', item);
+    console.log('item', item.image);
+
+    return (
+      <TouchableHighlight
+        style={styles.imageWrapper}
+        key={index}
+        onPress={() => {}}
+        onLongPress={drag}>
+        <View>
+          <Image
+            source={item.image}
+            style={{...styles.image}}
+            resizeMode="contain"
+          />
+          {/* <TextInput
+            value={'1'}
+            // style={{backgroundColor: 'white', height: 100, width: 100}}
+            placeholder="sadasdfsd"
+          /> */}
+        </View>
+      </TouchableHighlight>
+    );
+  };
+
+  return (
+    <GestureHandlerRootView>
+      <DraggableFlatList
+        // data={props.designSpaceComponents}
+        data={props.designSpaceComponents}
+        renderItem={renderItem}
+        keyExtractor={(item: any, index: number) => `draggable-item-${index}`}
+        horizontal={true}
+        onDragEnd={({data}: any) => props.setDesignSpaceComponents(data)}
+        // style={{backgroundColor: 'white', height: 100, width: 100}}
+      />
+    </GestureHandlerRootView>
   );
 }

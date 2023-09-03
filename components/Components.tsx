@@ -1,3 +1,7 @@
+export interface Component {
+  name: string;
+  image: any;
+}
 export const defaultSeriesInductor = {
   name: 'defaultSeriesInductor',
   image: require('../images/Inductor_Series.png'),
