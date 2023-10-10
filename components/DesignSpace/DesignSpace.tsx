@@ -5,7 +5,7 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
-import * as Components from '../Components';
+import * as Components from '../ComponentBank/DefaultComponents';
 import {useEffect, useState} from 'react';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -13,14 +13,16 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 interface DesignSpaceProps {
   setDesignSpaceComponents: Function;
   designSpaceComponents: Array<any>;
+  tempX: number;
+  tempY: number;
 }
 
 export default function DesignSpace(props: DesignSpaceProps) {
   const [aspectRatio, setAspectRatio] = useState(1); // default to 1:1
-  const [componentsArray, setComponentsArray] = useState([
-    Components.defaultLoad,
-    Components.defaultSource,
-  ]); // default to 1:1
+  // const [componentsArray, setComponentsArray] = useState([
+  //   Components.defaultLoad,
+  //   Components.defaultSource,
+  // ]); // default to 1:1
 
   const data = [Components.defaultLoad, Components.defaultSource]; // default to 1:1
   useEffect(() => {
@@ -49,24 +51,32 @@ export default function DesignSpace(props: DesignSpaceProps) {
     console.log('item', item.image);
 
     return (
-      <TouchableHighlight
-        style={styles.imageWrapper}
-        key={index}
-        onPress={() => {}}
-        onLongPress={drag}>
-        <View>
-          <Image
-            source={item.image}
-            style={{...styles.image}}
-            resizeMode="contain"
-          />
-          {/* <TextInput
-            value={'1'}
-            // style={{backgroundColor: 'white', height: 100, width: 100}}
-            placeholder="sadasdfsd"
-          /> */}
-        </View>
-      </TouchableHighlight>
+      <View>
+        <TouchableHighlight
+          style={styles.imageWrapper}
+          key={index}
+          onPress={() => {}}
+          onLongPress={drag}>
+          <View>
+            <Image
+              source={item.image}
+              style={{...styles.image}}
+              resizeMode="contain"
+            />
+          </View>
+        </TouchableHighlight>
+
+        <TextInput
+          value={props.tempX.toString()}
+          style={{backgroundColor: 'white'}}
+          placeholder="sadasdfsd"
+        />
+        <TextInput
+          value={props.tempY.toString()}
+          style={{backgroundColor: 'white'}}
+          placeholder="sadasdfsd"
+        />
+      </View>
     );
   };
 

@@ -8,10 +8,14 @@ import {
   View,
   Animated,
   StyleSheet,
-  Button,
 } from 'react-native';
 
-interface SmithChartProps {}
+interface SmithChartProps {
+  tempX: number;
+  tempY: number;
+  setTempX: Function;
+  setTempY: Function;
+}
 
 export default function SmithChart(props: SmithChartProps) {
   const backgroundRef = useRef<Canvas>(null);
@@ -73,6 +77,8 @@ export default function SmithChart(props: SmithChartProps) {
         }
 
         if (event.nativeEvent.touches.length == 1) {
+          props.setTempX(event.nativeEvent.locationX.toPrecision(3));
+          props.setTempY(event.nativeEvent.locationY.toPrecision(3));
           Points(
             smithChartCanvasRef,
             event.nativeEvent.locationX,

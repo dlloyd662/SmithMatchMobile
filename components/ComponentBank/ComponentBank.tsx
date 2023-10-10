@@ -1,5 +1,5 @@
 import {Image, StyleSheet, TouchableHighlight, View} from 'react-native';
-import * as Components from '../Components';
+import * as Components from './DefaultComponents';
 
 interface ComponentBankProps {
   setDesignSpaceComponents: Function;
