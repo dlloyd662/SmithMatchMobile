@@ -12,7 +12,7 @@ unitsMap.set('p', 10 ^ -12);
 class Inductor {
   public value: number = 1;
   public unitPrefix: string = 'p';
-  public unitPostfix: string = 'F';
+  public unitPostfix: string = 'H';
   public unitsArray: Array<String> = [' ', 'm', 'u', 'p'];
   public componentType: string = 'capacitor';
   constructor() {}
@@ -81,7 +81,7 @@ class SeriesResistor extends Resistor {
 }
 
 class Line {
-  public characteristicImpedance: number = 50;
+  public value: number = 50;
   public unitPrefix: string = 'm';
   public unitPostfix: string = 'Ω';
   public unitsArray: Array<String> = [' ', 'm'];
@@ -120,7 +120,7 @@ class TransmissionLine extends Line {
 
 class Port {
   public value: number = 50;
-  public unitPrefix: string = '';
+  public unitPrefix: string = ' ';
   public unitPostfix: string = 'Ω';
   constructor() {}
 }

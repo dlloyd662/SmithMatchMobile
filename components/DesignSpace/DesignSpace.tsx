@@ -1,6 +1,8 @@
 import {
+  FlatList,
   Image,
   StyleSheet,
+  Text,
   TextInput,
   TouchableHighlight,
   View,
@@ -38,12 +40,25 @@ export default function DesignSpace(props: DesignSpaceProps) {
       width: 50,
       aspectRatio: aspectRatio,
     },
+    inputRowContainer: {
+      backgroundColor: 'white',
+      flexDirection: 'row',
+      borderColor: 'gray',
+      borderWidth: 1,
+    },
+    inputRowInput: {
+      flexGrow: 1,
+      textAlign: 'center',
+      borderColor: 'black',
+      // borderWidth: 1,
+    },
+    inputRowSuffix: {
+      // alignSelf: 'center',
+    },
   });
 
   const renderItem = ({item, index, drag, isActive}: any) => {
-    // console.log('item', item);
-    console.log('item', item.image);
-
+    console.log(item);
     return (
       <View>
         <TouchableHighlight
@@ -60,16 +75,29 @@ export default function DesignSpace(props: DesignSpaceProps) {
           </View>
         </TouchableHighlight>
 
-        <TextInput
-          value={props.tempX.toString()}
-          style={{backgroundColor: 'white'}}
-          placeholder="sadasdfsd"
-        />
-        <TextInput
-          value={props.tempY.toString()}
-          style={{backgroundColor: 'white'}}
-          placeholder="sadasdfsd"
-        />
+        <View style={styles.inputRowContainer}>
+          <TextInput
+            // value={props.tempX.toString()}
+            value={item.value.toString()}
+            style={styles.inputRowInput}
+          />
+          <Text>
+            {item.unitPrefix}
+            {item.unitPostfix}
+          </Text>
+        </View>
+        {item.lengthUnitsArray && (
+          <View style={styles.inputRowContainer}>
+            <TextInput
+              value={props.tempY.toString()}
+              style={styles.inputRowInput}
+            />
+            <Text>
+              {item.lengthUnitPrefex}
+              {item.lengthUnitPostfix}
+            </Text>
+          </View>
+        )}
       </View>
     );
   };
@@ -82,7 +110,6 @@ export default function DesignSpace(props: DesignSpaceProps) {
         keyExtractor={(item: any, index: number) => `draggable-item-${index}`}
         horizontal={true}
         onDragEnd={({data}: any) => props.setDesignSpaceComponents(data)}
-        // style={{backgroundColor: 'white', height: 100, width: 100}}
       />
     </GestureHandlerRootView>
   );
