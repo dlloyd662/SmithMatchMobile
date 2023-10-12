@@ -1,7 +1,19 @@
+const unitsMap = new Map<string, number>();
+unitsMap.set('G', 10 ^ 9);
+unitsMap.set('M', 10 ^ 6);
+unitsMap.set('k', 10 ^ 3);
+unitsMap.set(' ', 10 ^ 0);
+unitsMap.set('c', 10 ^ -2);
+unitsMap.set('m', 10 ^ -3);
+unitsMap.set('u', 10 ^ -6);
+unitsMap.set('n', 10 ^ -9);
+unitsMap.set('p', 10 ^ -12);
+
 class Inductor {
   public value: number = 1;
   public unitPrefix: string = 'p';
   public unitPostfix: string = 'F';
+  public unitsArray: Array<String> = [' ', 'm', 'u', 'p'];
   public componentType: string = 'capacitor';
   constructor() {}
 }
@@ -24,6 +36,7 @@ class Capacitor {
   public value: number = 1;
   public unitPrefix: string = 'p';
   public unitPostfix: string = 'F';
+  public unitsArray: Array<String> = [' ', 'm', 'u', 'p'];
   public componentType: string = 'capacitor';
   constructor() {}
 }
@@ -47,6 +60,7 @@ class Resistor {
   public value: number = 50;
   public unitPrefix: string = 'm';
   public unitPostfix: string = 'Ω';
+  public unitsArray: Array<String> = [' ', 'm', 'u', 'p'];
   public componentType: string = 'resistor';
   constructor() {}
 }
@@ -70,6 +84,10 @@ class Line {
   public characteristicImpedance: number = 50;
   public unitPrefix: string = 'm';
   public unitPostfix: string = 'Ω';
+  public unitsArray: Array<String> = [' ', 'm'];
+  public lengthUnitPrefix: string = 'm';
+  public lengthUnitPostfix: string = 'm';
+  public lengthUnitsArray: Array<String> = [' ', 'c', 'm'];
   constructor() {}
 }
 
