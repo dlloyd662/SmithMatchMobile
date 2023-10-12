@@ -19,15 +19,9 @@ interface DesignSpaceProps {
 
 export default function DesignSpace(props: DesignSpaceProps) {
   const [aspectRatio, setAspectRatio] = useState(1); // default to 1:1
-  // const [componentsArray, setComponentsArray] = useState([
-  //   Components.defaultLoad,
-  //   Components.defaultSource,
-  // ]); // default to 1:1
 
-  const data = [Components.defaultLoad, Components.defaultSource]; // default to 1:1
   useEffect(() => {
     const imageSource = Image.resolveAssetSource(Components.defaultLoad.image);
-
     if (imageSource && imageSource.width && imageSource.height) {
       setAspectRatio(imageSource.width / imageSource.height);
     }
@@ -83,7 +77,6 @@ export default function DesignSpace(props: DesignSpaceProps) {
   return (
     <GestureHandlerRootView>
       <DraggableFlatList
-        // data={props.designSpaceComponents}
         data={props.designSpaceComponents}
         renderItem={renderItem}
         keyExtractor={(item: any, index: number) => `draggable-item-${index}`}

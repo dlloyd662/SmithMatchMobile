@@ -9,8 +9,8 @@ import 'react-native-gesture-handler';
 
 export default function App() {
   const [designSpaceComponents, setDesignSpaceComponents] = useState([
-    Components.defaultLoad,
     Components.defaultSource,
+    Components.defaultLoad,
   ]);
   const [tempX, setTempX] = useState(0);
   const [tempY, setTempY] = useState(0);

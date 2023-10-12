@@ -1,74 +1,145 @@
-export interface Component {
-  name: string;
-  image: any;
+class Inductor {
+  public value: number = 1;
+  public unitPrefix: string = 'p';
+  public unitPostfix: string = 'F';
+  public componentType: string = 'capacitor';
+  constructor() {}
 }
-
-class resistor {
-  private value: number;
-  constructor(value: number) {
-    this.value = value;
+class ShuntInductor extends Inductor {
+  public image: any = require('../../images/Inductor_Parallel.png');
+  componentConfiguration: string = 'shunt';
+  constructor() {
+    super();
   }
 }
 
-export const defaultSeriesResistor = {
-  name: 'defaultSeriesResistor',
-  image: require('../../images/Resistor_Series.png'),
-};
-export const defaultShuntResistor = {
-  name: 'defaultShuntResistor',
-  image: require('../../images/Resistor_Parallel.png'),
-};
+class SeriesInductor extends Inductor {
+  public image: any = require('../../images/Inductor_Series.png');
+  componentConfiguration: string = 'series';
+  constructor() {
+    super();
+  }
+}
+class Capacitor {
+  public value: number = 1;
+  public unitPrefix: string = 'p';
+  public unitPostfix: string = 'F';
+  public componentType: string = 'capacitor';
+  constructor() {}
+}
+class ShuntCapacitor extends Capacitor {
+  public image: any = require('../../images/Capacitor_Parallel.png');
+  componentConfiguration: string = 'shunt';
+  constructor() {
+    super();
+  }
+}
 
-export const defaultSeriesInductor = {
-  name: 'defaultSeriesInductor',
-  image: require('../../images/Inductor_Series.png'),
-};
-export const defaultShuntInductor = {
-  name: 'defaultShuntInductor',
-  image: require('../../images/Inductor_Parallel.png'),
-};
-export const defaultSeriesCapacitor = {
-  name: 'defaultSeriesCapacitor',
-  image: require('../../images/Capacitor_Series.png'),
-};
-export const defaultShuntCapacitor = {
-  name: 'defaultShuntCapacitor',
-  image: require('../../images/Capacitor_Parallel.png'),
-};
-export const defaultOpenStub = {
-  name: 'defaultOpenStub',
-  image: require('../../images/TLine_Open.png'),
-};
-export const defaultShortStub = {
-  name: 'defaultShortStub',
-  image: require('../../images/TLine_Short.png'),
-};
-export const defaultTransmissionLine = {
-  name: 'defaultTransmissionLine',
-  image: require('../../images/TLine_Series.png'),
-};
-export const defaultLoad = {
-  name: 'defaultLoad',
-  image: require('../../images/Source.png'),
-};
-export const defaultSource = {
-  name: 'defaultSource',
-  image: require('../../images/Load.png'),
-};
+class SeriesCapacitor extends Capacitor {
+  public image: any = require('../../images/Capacitor_Series.png');
+  componentConfiguration: string = 'series';
+  constructor() {
+    super();
+  }
+}
+
+class Resistor {
+  public value: number = 50;
+  public unitPrefix: string = 'm';
+  public unitPostfix: string = 'Ω';
+  public componentType: string = 'resistor';
+  constructor() {}
+}
+class ShuntResistor extends Resistor {
+  public image: any = require('../../images/Resistor_Parallel.png');
+  componentConfiguration: string = 'shunt';
+  constructor() {
+    super();
+  }
+}
+
+class SeriesResistor extends Resistor {
+  public image: any = require('../../images/Resistor_Series.png');
+  componentConfiguration: string = 'series';
+  constructor() {
+    super();
+  }
+}
+
+class Line {
+  public characteristicImpedance: number = 50;
+  public unitPrefix: string = 'm';
+  public unitPostfix: string = 'Ω';
+  constructor() {}
+}
+
+class OpenStub extends Line {
+  public image: any = require('../../images/TLine_Open.png');
+  componentConfiguration: string = 'open';
+  public componentType: string = 'stub';
+  constructor() {
+    super();
+  }
+}
+
+class ShortStub extends Line {
+  public image: any = require('../../images/TLine_Short.png');
+  componentConfiguration: string = 'short';
+  public componentType: string = 'stub';
+  constructor() {
+    super();
+  }
+}
+
+class TransmissionLine extends Line {
+  public image: any = require('../../images/TLine_Series.png');
+  componentConfiguration: string = 'series';
+  public componentType: string = 'transmissionLine';
+  constructor() {
+    super();
+  }
+}
+
+class Port {
+  public value: number = 50;
+  public unitPrefix: string = '';
+  public unitPostfix: string = 'Ω';
+  constructor() {}
+}
+
+class Load extends Port {
+  public componentType: string = 'load';
+  public image: any = require('../../images/Load.png');
+
+  constructor() {
+    super();
+  }
+}
+class Source extends Port {
+  componentType: string = 'source';
+  image: any = require('../../images/Source.png');
+
+  constructor() {
+    super();
+  }
+}
+export const defaultSource = new Source();
+export const defaultLoad = new Load();
 
 export const defaultComponentsArray = [
-  defaultSeriesInductor,
-  defaultShuntInductor,
-  defaultSeriesCapacitor,
-  defaultShuntCapacitor,
-  defaultSeriesResistor,
-  defaultShortStub,
-  defaultOpenStub,
-  defaultTransmissionLine,
+  new ShuntInductor(),
+  new SeriesInductor(),
+  new ShuntCapacitor(),
+  new SeriesCapacitor(),
+  new ShuntResistor(),
+  new SeriesResistor(),
+  new ShortStub(),
+  new OpenStub(),
+  new TransmissionLine(),
 ];
 
 let componentMap = new Map<string, object>();
 defaultComponentsArray.forEach((component, index) => {
-  componentMap.set(component.name, component);
+  componentMap.set(component.componentType, component);
 });
 export {componentMap};
